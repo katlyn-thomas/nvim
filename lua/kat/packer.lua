@@ -13,10 +13,6 @@ return require('packer').startup(function(use)
   use 'hrsh7th/nvim-cmp'
   use 'hrsh7th/vim-vsnip'
   use {
-    'romgrk/barbar.nvim',
-    requires = {'kyazdani42/nvim-web-devicons'}
-  }
-  use {
     'nvim-telescope/telescope.nvim', branch = '0.1.x',
     requires =  {'nvim-lua/plenary.nvim'}
   }
