@@ -1,18 +1,5 @@
 require("kat")
 
--- set up lsp's
---require'lspconfig'.pyright.setup{}
---require'lspconfig'.eslint.setup{}
---require'lspconfig'.gdscript.setup{}
---require'lspconfig'.rust_analyzer.setup{}
---require'lspconfig'.tailwindcss.setup{}
---require'lspconfig'.taplo.setup{}
---require'lspconfig'.tsserver.setup{}
---require'lspconfig'.volar.setup{
---  filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'}
---}
---require'lspconfig'.sumneko_lua.setup{}
-
 -- Setup nvim-cmp.
 local cmp = require'cmp'
 
@@ -20,10 +7,7 @@ cmp.setup({
   snippet = {
     -- REQUIRED - you must specify a snippet engine
     expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-      -- require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-      -- require('snippy').expand_snippet(args.body) -- For `snippy` users.
-      -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+      require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
     end,
   },
   window = {
@@ -31,7 +15,7 @@ cmp.setup({
     -- documentation = cmp.config.window.bordered(),
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-j>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
@@ -39,10 +23,7 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
-    { name = 'vsnip' }, -- For vsnip users.
-    -- { name = 'luasnip' }, -- For luasnip users.
-    -- { name = 'ultisnips' }, -- For ultisnips users.
-    -- { name = 'snippy' }, -- For snippy users.
+    { name = 'luasnip' },
   }, {
     { name = 'buffer' },
   })
@@ -57,52 +38,88 @@ cmp.setup.filetype('gitcommit', {
   })
 })
 
--- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline('/', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
 
--- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-cmp.setup.cmdline(':', {
-mapping = cmp.mapping.preset.cmdline(),
-sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  })
-})
+local lsp_configs = {
+    pyright = {},
+    eslint = {},
+    gdscript = {},
+    rust_analyzer = {},
+    tailwindcss = {},
+    taplo = {},
+    tsserver = {},
+    volar = {
+        filetypes = {
+            'typescript',
+            'javascript',
+            'javascriptreact',
+            'typescriptreact',
+            'vue',
+            'json'
+        }
+    },
+    sumneko_lua = {
+        settings = {
+            Lua = {
+                diagnostics = {
+                    globals = { 'vim' }
+                }
+            }
+        }
+    }
+}
 
--- Setup lspconfig.
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
--- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-require('lspconfig')['pyright'].setup {
-    capabilities = capabilities
+
+local on_attach = function ()
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, {buffer=0})
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {buffer=0})
+    vim.keymap.set('n', 'gT', vim.lsp.buf.type_definition, {buffer=0})
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {buffer=0})
+    vim.keymap.set('n', '<leader>dj', vim.diagnostic.goto_next, {buffer=0})
+    vim.keymap.set('n', '<leader>dk', vim.diagnostic.goto_prev, {buffer=0})
+    vim.keymap.set('n', '<leader>r', vim.lsp.buf.rename, {buffer=0})
+end
+
+for server, lsp_config in pairs(lsp_configs) do
+    local config = {}
+    config[on_attach] = on_attach
+    config[capabilities] = capabilities
+
+    for k, v in pairs(lsp_config) do
+        config[k] = v
+    end
+
+    require('lspconfig')[server].setup(config)
+end
+
+require('lualine').setup {
+  options = {
+    theme = 'tokyonight'
+  }
 }
-require('lspconfig')['eslint'].setup {
-    capabilities = capabilities
+
+require("telescope").setup {
+  extensions = {
+    file_browser = {
+      -- disables netrw and use telescope-file-browser in its place
+      hijack_netrw = true,
+      mappings = {
+        ["i"] = {
+          -- your custom insert mode mappings
+        },
+        ["n"] = {
+          -- your custom normal mode mappings
+        },
+      },
+    },
+  },
 }
-require('lspconfig')['gdscript'].setup {
-    capabilities = capabilities
-}
-require('lspconfig')['rust_analyzer'].setup {
-    capabilities = capabilities
-}
-require('lspconfig')['tailwindcss'].setup {
-    capabilities = capabilities
-}
-require('lspconfig')['taplo'].setup {
-    capabilities = capabilities
-}
-require('lspconfig')['tsserver'].setup {
-    capabilities = capabilities
-}
-require('lspconfig')['volar'].setup {
-    capabilities = capabilities,
-    filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json'}
-}
-require('lspconfig')['sumneko_lua'].setup {
-    capabilities = capabilities
-}
+
+require("telescope").load_extension "file_browser"
+
+vim.api.nvim_set_keymap(
+  "n",
+  "<space>fb",
+  "<cmd>Telescope file_browser<cr>",
+  { noremap = true }
+)

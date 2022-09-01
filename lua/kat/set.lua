@@ -15,3 +15,11 @@ vim.opt.smartindent = true
 vim.opt.wrap = false
 
 vim.g.mapleader = " "
+
+local _ = vim.api.nvim_exec(
+[[
+set mouse=a
+set ma
+set noswapfile
+]],
+true)
