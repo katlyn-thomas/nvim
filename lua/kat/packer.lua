@@ -3,6 +3,7 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
+    use 'monkoose/matchparen.nvim'
     use 'smithbm2316/centerpad.nvim'
     use 'tanvirtin/monokai.nvim'
     use 'folke/tokyonight.nvim'
@@ -10,9 +11,15 @@ return require('packer').startup(function(use)
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
     use 'hrsh7th/cmp-path'
-    use 'hrsh7th/cmp-cmdline'
     use 'hrsh7th/nvim-cmp'
+    use 'numToStr/Comment.nvim'
     use 'L3MON4D3/LuaSnip'
+    use {
+        'hrsh7th/cmp-cmdline',
+        config = function ()
+            require('Comment').setup()
+        end
+    }
     use {
         'nvim-telescope/telescope.nvim', branch = '0.1.x',
         requires =  {'nvim-lua/plenary.nvim'}

@@ -12,9 +12,6 @@ end
 
 nnoremap("<leader>z", "<cmd>lua Pad(120)<CR>")
 
-
-nnoremap("<leader>rw", "<cmd>Ex<CR>") -- netrw
-
 -- Tabs
 nnoremap("<leader>.", "<cmd>BufferNext<CR>") -- next buffer
 nnoremap("<leader>,", "<cmd>BufferPrevious<CR>") -- prev buffer
