@@ -1,16 +1,16 @@
 local nnoremap = require("kat.keymap").nnoremap
 
-function Pad (width)
-    local handle = io.popen("tput cols")
-    local result = tonumber(handle:read("*a"))
-    handle:close()
-    if result > width then
-       local pad = math.floor((result - 120) / 2)
-       require'centerpad'.toggle{ leftpad = pad, rightpad = pad }
-    end
-end
-
-nnoremap("<leader>z", "<cmd>lua Pad(120)<CR>")
+-- function Pad (width)
+--     local handle = io.popen("tput cols")
+--     local result = tonumber(handle:read("*a"))
+--     handle:close()
+--     if result > width then
+--        local pad = math.floor((result - 120) / 2)
+--        require'centerpad'.toggle{ leftpad = pad, rightpad = pad }
+--     end
+-- end
+--
+-- nnoremap("<leader>z", "<cmd>lua Pad(120)<CR>")
 
 -- Tabs
 nnoremap("<leader>.", "<cmd>BufferNext<CR>") -- next buffer
