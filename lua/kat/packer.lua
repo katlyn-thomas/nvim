@@ -14,6 +14,7 @@ return require('packer').startup(function(use)
     use 'hrsh7th/nvim-cmp'
     use 'numToStr/Comment.nvim'
     use 'L3MON4D3/LuaSnip'
+    use { "catppuccin/nvim", as = "catppuccin" }
     use {
         "folke/zen-mode.nvim",
         config = function()

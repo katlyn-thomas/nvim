@@ -162,3 +162,6 @@ end
 
 vim.keymap.set('n', '<leader>z', Zen)
 
+vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+require("catppuccin").setup()
+
