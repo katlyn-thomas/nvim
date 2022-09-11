@@ -3,6 +3,7 @@ vim.cmd [[packadd packer.nvim]]
 return require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
+    use 'jose-elias-alvarez/null-ls.nvim'
     use 'cohama/lexima.vim'
     use 'monkoose/matchparen.nvim'
     use 'tanvirtin/monokai.nvim'
@@ -14,6 +15,10 @@ return require('packer').startup(function(use)
     use 'hrsh7th/nvim-cmp'
     use 'numToStr/Comment.nvim'
     use 'L3MON4D3/LuaSnip'
+    use 'simrat39/rust-tools.nvim'
+    -- Debugging
+    use 'nvim-lua/plenary.nvim'
+    use 'mfussenegger/nvim-dap'
     use { "catppuccin/nvim", as = "catppuccin" }
     use {
         "folke/zen-mode.nvim",
