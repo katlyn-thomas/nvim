@@ -12,6 +12,8 @@ local nnoremap = require("kat.keymap").nnoremap
 --
 -- nnoremap("<leader>z", "<cmd>lua Pad(120)<CR>")
 
+nnoremap("<leader>;", "A;<esc>")
+
 -- Tabs
 nnoremap("<leader>.", "<cmd>BufferNext<CR>") -- next buffer
 nnoremap("<leader>,", "<cmd>BufferPrevious<CR>") -- prev buffer
