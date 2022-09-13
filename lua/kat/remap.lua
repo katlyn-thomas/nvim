@@ -29,3 +29,7 @@ nnoremap("<leader>p", "<cmd>BufferPick<CR>") -- buffer pick mode
 
 -- Telescope
 nnoremap("<leader>ff", "<cmd>Telescope find_files<CR>")
+
+nnoremap("<leader>tt", "<cmd>NvimTreeToggle<cr>")
+nnoremap("<leader>tf", "<cmd>NvimTreeFindFile<cr>")
+nnoremap("<leader>tc", "<cmd>NvimTreeCollapse<cr>")

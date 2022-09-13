@@ -6,8 +6,6 @@ return require('packer').startup(function(use)
     use 'jose-elias-alvarez/null-ls.nvim'
     use 'cohama/lexima.vim'
     use 'monkoose/matchparen.nvim'
-    use 'tanvirtin/monokai.nvim'
-    use 'folke/tokyonight.nvim'
     use 'neovim/nvim-lspconfig'
     use 'hrsh7th/cmp-nvim-lsp'
     use 'hrsh7th/cmp-buffer'
@@ -20,6 +18,17 @@ return require('packer').startup(function(use)
     use 'nvim-lua/plenary.nvim'
     use 'mfussenegger/nvim-dap'
     use { "catppuccin/nvim", as = "catppuccin" }
+    use {
+      'kyazdani42/nvim-tree.lua',
+      requires = {
+        'kyazdani42/nvim-web-devicons', -- optional, for file icons
+      },
+      tag = 'nightly' -- optional, updated every week. (see issue #1193)
+    }
+    use {
+      'romgrk/barbar.nvim',
+      requires = {'kyazdani42/nvim-web-devicons'}
+    }
     use {
         "folke/zen-mode.nvim",
         config = function()
